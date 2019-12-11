@@ -1,3 +1,5 @@
+import { ADD_FEATURES, REMOVE_FEATURES } from './actions/actions'
+
 const initialState = {
   additionalPrice: 0,
   car: {
@@ -17,5 +19,7 @@ const initialState = {
 
 export const Reducer = {state = initialState, action} => {
   console.log('state in our reducer', state);
-  switch (action.type)
+  switch (action.type) {
+
+  }
 }
