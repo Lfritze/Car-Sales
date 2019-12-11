@@ -4,45 +4,42 @@ import Header from "./components/Header";
 import AddedFeatures from "./components/AddedFeatures";
 import AdditionalFeatures from "./components/AdditionalFeatures";
 import Total from "./components/Total";
+import { connect } from "react-redux";
+import { addFeatures, removeItem } from "./actions/actions";
+//react-redux is a bridge piece between React and Redux
 
-const App = () => {
-  // const state = {
-  //   additionalPrice: 0,
-  //   car: {
-  //     price: 26395,
-  //     name: '2019 Ford Mustang',
-  //     image:
-  //       'https://cdn.motor1.com/images/mgl/0AN2V/s1/2019-ford-mustang-bullitt.jpg',
-  //     features: []
-  //   },
-  //   additionalFeatures: [
-  //     { id: 1, name: 'V-6 engine', price: 1500 },
-  //     { id: 2, name: 'Racing detail package', price: 1500 },
-  //     { id: 3, name: 'Premium sound system', price: 500 },
-  //     { id: 4, name: 'Rear spoiler', price: 250 }
-  //   ]
-  // };
-
+const App = ({ state, addFeatures, removeItem }) => {
   const removeFeature = item => {
+    removeItem(item);
+    console.log(`this is a remove item feature`, item);
     // dispatch an action here to remove an item
   };
 
   const buyItem = item => {
+    addFeatures(item);
+    console.log(`this is an add item feature`, item);
     // dipsatch an action here to add an item
   };
-
   return (
     <div className="boxes">
       <div className="box">
         <Header car={state.car} />
-        <AddedFeatures car={state.car} />
+        <AddedFeatures car={state.car} removeFeature={removeFeature} />
       </div>
       <div className="box">
-        <AdditionalFeatures additionalFeatures={state.additionalFeatures} />
+        <AdditionalFeatures store={state.store} buyItem={buyItem} />
         <Total car={state.car} additionalPrice={state.additionalPrice} />
       </div>
     </div>
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    state: state
+  };
+};
+
+// 'our connected component is using a mapStateToProps function to map pieces of our state tree to this components props
+
+export default connect(mapStateToProps, { addFeatures, removeItem })(App);
